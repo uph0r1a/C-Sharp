@@ -1,0 +1,25 @@
+front - end Razor page:
+
+1. Cài thư viện 
+Install-Package Microsoft.Extensions.Http
+
+2. khai báo trong Program.cs
+	// Đăng ký HttpClient với tên "BookApi"
+builder.Services.AddHttpClient("BookApi", client =>
+{
+    client.BaseAddress = new Uri("http://localhost:5010/");
+    client.DefaultRequestHeaders.Add("Accept", "application/json");
+});
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+});
+
+app.UseCors("AllowAll");
+
+3. Thêm các Models thao tác với API;
+
+4. Thêm các trang razor page:
+- trang index.cshtml.cs là code lấy dữ liệu từ API
+- trang index.cshtml hiển thị dữ liệu 
