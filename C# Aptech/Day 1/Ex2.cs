@@ -4,13 +4,8 @@ while (true)
 {
     Console.Write("Enter coin (1, 2, 5, 10, 20, 50; 0 to finish): ");
     int value;
-    while (true)
+    while (!(int.TryParse(Console.ReadLine(), out value) && (value == 1 || value == 2 || value == 5 || value == 10 || value == 20 || value == 50 || value == 0)))
     {
-        if (int.TryParse(Console.ReadLine(), out value) && (value == 1 || value == 2 || value == 5 || value == 10 || value == 20 || value == 50 || value == 0))
-        {
-            break;
-        }
-
         Console.Write("Invalid value\nRe-enter value: ");
     }
 

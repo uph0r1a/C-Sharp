@@ -1,3 +1,5 @@
+using System;
+
 Console.Write("Enter employee name: ");
 string name = Console.ReadLine() ?? "";
 
@@ -5,17 +7,10 @@ Console.Write("Enter employee company name: ");
 string company = Console.ReadLine() ?? "";
 
 Console.Write("Enter employee birthyear: ");
-int birthConsoyear;
+int birthyear;
 
-while (true)
+while (!(int.TryParse(Console.ReadLine(), out birthyear) && birthyear >= 1900 && birthyear <= DateTime.Now.Year))
 {
-    if (int.TryParse(Console.ReadLine(), out birthyear) &&
-        birthyear >= 1900 &&
-        birthyear <= DateTime.Now.Year)
-    {
-        break;
-    }
-
     Console.Write("Invalid birthyear\nRe-enter employee birthyear: ");
 }
 
@@ -25,39 +20,24 @@ string address = Console.ReadLine() ?? "";
 Console.Write("Enter number of months worked: ");
 int month;
 
-while (true)
+while (!(int.TryParse(Console.ReadLine(), out month) && month >= 0))
 {
-    if (int.TryParse(Console.ReadLine(), out month) && month >= 0)
-    {
-        break;
-    }
-
     Console.Write("Invalid number of months\nRe-enter number of months worked: ");
 }
 
 Console.Write("Enter employee salary: ");
 double salary;
 
-while (true)
+while (!(double.TryParse(Console.ReadLine(), out salary) && salary >= 0))
 {
-    if (double.TryParse(Console.ReadLine(), out salary) && salary >= 0)
-    {
-        break;
-    }
-
     Console.Write("Invalid employee salary\nRe-enter employee salary: ");
 }
 
 Console.Write("Enter salary level: ");
 int level;
 
-while (true)
+while (!(int.TryParse(Console.ReadLine(), out level) && level >= 0))
 {
-    if (int.TryParse(Console.ReadLine(), out level) && level >= 0)
-    {
-        break;
-    }
-
     Console.Write("Invalid salary level\nRe-enter salary level: ");
 }
 
