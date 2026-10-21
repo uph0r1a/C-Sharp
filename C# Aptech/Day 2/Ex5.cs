@@ -1,8 +1,9 @@
-for (int i = 1; i <= 10; i++)
+for (var number = 1; number <= 10; number++)
 {
-    Console.WriteLine($"\nBang cuu chuong {i}");
-    for (int j = 0; j <= 10; j++)
+    Console.WriteLine($"\nBang cuu chuong {number}");
+
+    for (var multiplier = 0; multiplier <= 10; multiplier++)
     {
-        Console.WriteLine($"{i} x {j} = {i * j}");
+        Console.WriteLine($"{number} x {multiplier} = {number * multiplier}");
     }
 }

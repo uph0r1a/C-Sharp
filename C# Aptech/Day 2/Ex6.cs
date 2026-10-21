@@ -1,23 +1,30 @@
-Console.Write("Enter n: ");
-int n;
+Console.Write("Enter n (1-20): ");
 
-while (!(int.TryParse(Console.ReadLine(), out n) && n >= 0 && n <= 20))
+int n;
+while (!int.TryParse(Console.ReadLine(), out n) || n is < 1 or > 20)
 {
-    Console.Write("Invalid n\nRe-enter n: ");
+    Console.Write("Invalid n. Enter an integer from 1 to 20: ");
 }
 
-int[] arr = new int[n];
+var numbers = new int[n];
 
-for (int i = 0; i < n; i++)
+for (var i = 0; i < numbers.Length; i++)
 {
     Console.Write($"Enter number {i + 1}: ");
 
-    while (!int.TryParse(Console.ReadLine(), out arr[i]))
+    while (!int.TryParse(Console.ReadLine(), out numbers[i]))
     {
-        Console.Write("Invalid number. Re-enter: ");
+        Console.Write("Invalid integer. Re-enter: ");
     }
 }
-int[] even = [.. arr.Where(n => n % 2 == 0)];
-int[] odd = [.. arr.Where(n => n % 2 != 0)];
 
-Console.WriteLine($"Even number: {string.Join(" ", even)}\nOdd number: {string.Join(" ", odd)}\nSum even: {even.Sum()}");
+var even = numbers.Where(static number => number % 2 == 0).ToArray();
+var odd = numbers.Where(static number => number % 2 != 0).ToArray();
+
+var evenSum = even.Sum(static number => (long)number);
+
+Console.WriteLine($"""
+    Even numbers: {string.Join(" ", even)}
+    Odd numbers:  {string.Join(" ", odd)}
+    Sum of even numbers: {evenSum}
+    """);

@@ -1,17 +1,36 @@
-Console.Write("Nhap canh a: ");
-double a = Convert.ToDouble(Console.ReadLine());
+using System.Globalization;
 
-Console.Write("Nhap canh b: ");
-double b = Convert.ToDouble(Console.ReadLine());
+var a = ReadPositiveDouble("Nhap canh day lon a: ");
+var b = ReadPositiveDouble("Nhap canh day nho b: ");
+var c = ReadPositiveDouble("Nhap canh ben c: ");
+var d = ReadPositiveDouble("Nhap canh ben d: ");
+var h = ReadPositiveDouble("Nhap chieu cao h: ");
 
-Console.Write("Nhap canh c: ");
-double c = Convert.ToDouble(Console.ReadLine());
+var area = (a + b) * h / 2;
+var perimeter = a + b + c + d;
 
-Console.Write("Nhap canh d: ");
-double d = Convert.ToDouble(Console.ReadLine());
+Console.WriteLine($"""
+    ===== Hinh thang =====
+    Canh day lon: {a:N2}
+    Canh day nho: {b:N2}
+    Canh ben c: {c:N2}
+    Canh ben d: {d:N2}
+    Chieu cao: {h:N2}
+    Dien tich: {area:N2}
+    Chu vi: {perimeter:N2}
+    """);
 
-Console.Write("Nhap h: ");
-double h = Convert.ToDouble(Console.ReadLine());
+static double ReadPositiveDouble(string prompt)
+{
+    while (true)
+    {
+        Console.Write(prompt);
 
-double S = ((a + b) * h) / 2, cv = a + b + c + d;
-Console.WriteLine($"Dien tich hinh thang: {S}\nChu vi hinh thang: {cv}");
+        if (double.TryParse(Console.ReadLine(), NumberStyles.Float, CultureInfo.InvariantCulture, out var value) && double.IsFinite(value) && value > 0)
+        {
+            return value;
+        }
+
+        Console.WriteLine("Gia tri khong hop le. Vui long nhap so huu han lon hon 0.");
+    }
+}

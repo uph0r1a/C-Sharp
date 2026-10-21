@@ -1,21 +1,34 @@
-Console.Write("Enter n: ");
-int n;
+Console.WriteLine("Enter n (1-20):");
 
-while (!(int.TryParse(Console.ReadLine(), out n) && n >= 0 && n <= 20))
+int n;
+while (true)
 {
-    Console.Write("Invalid n\nRe-enter n: ");
+    if (int.TryParse(Console.ReadLine(), out n) && n is >= 1 and <= 20)
+    {
+        break;
+    }
+
+    Console.WriteLine("Invalid n. Enter an integer from 1 to 20:");
 }
 
-int[] arr = new int[n];
+var numbers = new int[n];
 
-for (int i = 0; i < n; i++)
+for (var i = 0; i < numbers.Length; i++)
 {
-    Console.Write($"Enter number {i + 1}: ");
-
-    while (!int.TryParse(Console.ReadLine(), out arr[i]))
+    while (true)
     {
-        Console.Write("Invalid number. Re-enter: ");
+        Console.Write($"Enter number {i + 1}: ");
+
+        if (int.TryParse(Console.ReadLine(), out numbers[i]))
+        {
+            break;
+        }
+
+        Console.WriteLine("Invalid integer. Please try again.");
     }
 }
 
-Console.WriteLine($"Max: {(n > 0 ? arr.Max().ToString() : "None")}\nSum: {arr.Sum()}");
+var max = numbers.Max();
+var sum = numbers.Sum(x => (long)x);
+
+Console.WriteLine($"Maximum: {max}\nSum: {sum}");

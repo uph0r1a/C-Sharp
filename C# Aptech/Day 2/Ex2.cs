@@ -1,15 +1,44 @@
-Console.Write("Enter number of pizza: ");
-int number;
-while (int.TryParse(Console.ReadLine(), out number) && number >= 0)
+var numberOfPizzas = ReadInt32("Enter number of pizzas: ", minimum: 0);
+var time = ReadDouble("Enter time: ", minimum: 0);
+
+decimal pricePerPizza = time switch
 {
-    Console.Write("Invalid number of pizzas\nRe-enter number of pizza: ");
+    > 30 => 0m,
+    > 20 => 2.5m,
+    > 10 => 4m,
+    _ => 5.5m
+};
+
+var totalMoney = numberOfPizzas * pricePerPizza;
+
+Console.WriteLine($"Total money: {totalMoney:N2}");
+
+static int ReadInt32(string prompt, int minimum)
+{
+    while (true)
+    {
+        Console.Write(prompt);
+
+        if (int.TryParse(Console.ReadLine(), out var value) && value >= minimum)
+        {
+            return value;
+        }
+
+        Console.WriteLine($"Enter an integer greater than or equal to {minimum}.");
+    }
 }
 
-Console.Write("Enter time: ");
-double time;
-while (double.TryParse(Console.ReadLine(), out time) && time >= 0)
+static double ReadDouble(string prompt, double minimum)
 {
-    Console.Write("Invalid time\nRe-enter time: ");
-}
+    while (true)
+    {
+        Console.Write(prompt);
 
-Console.WriteLine("Total money: " + number * (time > 30 ? 0 : time > 20 ? 2.5 : time > 10 ? 4 : 5.5));
+        if (double.TryParse(Console.ReadLine(), out var value) && double.IsFinite(value) && value >= minimum)
+        {
+            return value;
+        }
+
+        Console.WriteLine($"Enter a finite number greater than or equal to {minimum}.");
+    }
+}

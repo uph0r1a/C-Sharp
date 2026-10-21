@@ -1,11 +1,19 @@
-Console.Write("Enter a number: ");
-int num;
-while (!(int.TryParse(Console.ReadLine(), out num) && 0 <= num && num <= 10))
+int number;
+
+while (true)
 {
-    Console.Write("Invalid number\nRe-enter a number: ");
+    Console.Write("Enter a number (0–10): ");
+
+    if (int.TryParse(Console.ReadLine(), out number)
+        && number is >= 0 and <= 10)
+    {
+        break;
+    }
+
+    Console.WriteLine("Invalid input. Enter an integer from 0 to 10.");
 }
 
-for (int i = 0; i <= 10; i++)
+for (var multiplier = 0; multiplier <= 10; multiplier++)
 {
-    Console.WriteLine($"{num} x {i} = {num * i}");
+    Console.WriteLine($"{number} x {multiplier} = {number * multiplier}");
 }
