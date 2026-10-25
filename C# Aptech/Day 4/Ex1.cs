@@ -1,18 +1,16 @@
 List<Shape> shapes = [new Circle("Red", 5), new Rectangle("Green", 4, 6), new Circle("Yellow", 3)];
-double totalArea = 0;
+var totalArea = 0d;
 
 foreach (var shape in shapes)
 {
     shape.DisplayInfo();
 
-    var area = shape.CalculateArea();
-    var perimeter = shape.CalculatePerimeter();
+    Console.WriteLine($"""
+    Area: {shape.CalculateArea():F2}
+    Perimeter: {shape.CalculatePerimeter():F2}
+    """);
 
-    Console.WriteLine($"Area: {area:F2}");
-    Console.WriteLine($"Perimeter: {perimeter:F2}");
-    Console.WriteLine();
-
-    totalArea += area;
+    totalArea += shape.CalculateArea();
 }
 
 Console.WriteLine($"Total area: {totalArea:F2}");
@@ -25,7 +23,7 @@ public abstract class Shape(string color)
 
     public abstract double CalculatePerimeter();
 
-    public void DisplayInfo() => Console.WriteLine($"Shape {GetType().Name} - Color: {Color}");
+    public void DisplayInfo() => Console.WriteLine($"Shape: {GetType().Name} | Color: {Color}");
 }
 
 public sealed class Circle(string color, double radius) : Shape(color)
