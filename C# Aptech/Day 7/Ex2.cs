@@ -4,6 +4,8 @@ public static class Program
 {
     public static void Main()
     {
+        Console.WriteLine("=== HỆ THỐNG QUẢN LÝ ĐƠN HÀNG ===\n");
+
         var processor = new OrderProcessor();
         var emailService = new EmailService();
         var smsService = new SMSService();
@@ -18,8 +20,8 @@ public static class Program
         processor.OrderShipped += loggingService.OnOrderShipped;
 
         processor.CreateOrder("DH001", "Nguyễn Văn A", "iPhone 15", 28_000_000m);
-        Console.WriteLine("----------------------------------------");
 
+        Console.WriteLine("----------------------------------------");
         processor.CreateOrder("DH002", "Trần Thị B", "Laptop Dell", 32_000_000m);
         Console.WriteLine("----------------------------------------");
 
@@ -34,6 +36,17 @@ public static class Program
         {
             Console.WriteLine($"[ERROR] {exception.Message}");
         }
+
+        try
+        {
+            processor.ShipOrder("DH999");
+        }
+        catch (KeyNotFoundException exception)
+        {
+            Console.WriteLine($"[ERROR] {exception.Message}");
+        }
+
+        Console.WriteLine("\n=== Hệ thống xử lý đơn hàng hoàn tất ===");
     }
 }
 
@@ -60,7 +73,6 @@ public sealed class Order(string orderId, string customerName, string productNam
 public class OrderProcessor
 {
     private readonly Dictionary<string, Order> _orders = new(StringComparer.OrdinalIgnoreCase);
-
     public event EventHandler<OrderEventArgs>? OrderCreated;
     public event EventHandler<OrderEventArgs>? OrderShipped;
 
@@ -77,11 +89,9 @@ public class OrderProcessor
         }
 
         var order = new Order(orderId, customerName, productName, amount);
-
         _orders.Add(order.OrderId, order);
 
         Console.WriteLine($"[PROCESSOR] Đang tạo đơn hàng {order.OrderId} " + $"cho khách {order.CustomerName}...");
-
         OnOrderCreated(order);
     }
 
@@ -100,15 +110,19 @@ public class OrderProcessor
         }
 
         order.MarkAsShipped();
-
         Console.WriteLine($"[PROCESSOR] Đang giao đơn hàng {order.OrderId}...");
-
         OnOrderShipped(order);
     }
 
-    protected virtual void OnOrderCreated(Order order) => OrderCreated?.Invoke(this, new OrderEventArgs(order.OrderId, order.CustomerName, order.ProductName, order.Amount));
+    protected virtual void OnOrderCreated(Order order)
+    {
+        OrderCreated?.Invoke(this, new OrderEventArgs(order.OrderId, order.CustomerName, order.ProductName, order.Amount));
+    }
 
-    protected virtual void OnOrderShipped(Order order) => OrderShipped?.Invoke(this, new OrderEventArgs(order.OrderId, order.CustomerName, order.ProductName, order.Amount));
+    protected virtual void OnOrderShipped(Order order)
+    {
+        OrderShipped?.Invoke(this, new OrderEventArgs(order.OrderId, order.CustomerName, order.ProductName, order.Amount));
+    }
 }
 
 public sealed class EmailService
@@ -132,5 +146,5 @@ public sealed class LoggingService
 
 public sealed class InventoryService
 {
-    public void OnOrderCreated(object? sender, OrderEventArgs e) => Console.WriteLine($"[INVENTORY] Đang xử lý kho sản phẩm " + $"{e.ProductName} cho đơn {e.OrderId}.");
+    public void OnOrderCreated(object? sender, OrderEventArgs e) => Console.WriteLine($"[INVENTORY] Đang xử lý kho sản phẩm {e.ProductName} " + $"cho đơn {e.OrderId}.");
 }
